@@ -1,15 +1,43 @@
 package com.example.langchain4j_springboot.config;
 
 
+import dev.langchain4j.community.model.dashscope.QwenEmbeddingModel;
 import dev.langchain4j.memory.ChatMemory;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.StreamingChatModel;
+import dev.langchain4j.rag.content.retriever.ContentRetriever;
+import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever;
 import dev.langchain4j.service.AiServices;
 import dev.langchain4j.service.TokenStream;
+import dev.langchain4j.store.embedding.EmbeddingStore;
+import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * JDK动态代理与AiServices的理解<p>
+ * 核心概念解析<p>
+ * 1. 接口定义<p>
+ * 你定义的 Assistant 接口只是声明了方法契约<p>
+ * 接口中没有构造方法，只有方法签名<p>
+ * AiServices 会基于这个接口创建动态代理实例<p>
+ * 2. AiServices的作用<p>
+ * AiServices.builder(Assistant.class) 指定要代理的接口类型<p>
+ * 通过链式调用配置各种组件（如 chatModel、contentRetriever 等）<p>
+ * 最终 build() 方法返回接口的代理实现<p>
+ * 3. 动态代理机制<p>
+ * 当调用 assistant.chat(message) 时<p>
+ * 代理对象拦截方法调用<p>
+ * 根据方法签名和配置的组件执行相应的AI功能<p>
+ * 无需手动实现接口方法<p>
+ * 4. 关键区别<p>
+ * 你不是在构造方法中实现功能<p>
+ * 而是通过 AiServices 配置代理行为<p>
+ * 接口方法的实现由框架动态生成<p>
+ * 总结<p>
+ * AiServices 本质上是一个代理工厂，它根据接口定义和配置参数，动态生成具有AI能力的代理对象，实现了面向接口编程的简洁性<p>
+ */
 @Configuration
 public class AiConfig {
 
@@ -20,15 +48,32 @@ public class AiConfig {
     }
 
     @Bean
+    public EmbeddingStore embeddingStore() {
+        return new InMemoryEmbeddingStore();
+    }
+
+    @Bean
     public Assistant assistant(ChatModel qwenChatModel,
-                               StreamingChatModel qwenStreamingChatModel) {
+                               StreamingChatModel qwenStreamingChatModel,
+                               EmbeddingStore embeddingStore,
+                               QwenEmbeddingModel qwenEmbeddingModel) {
+        // 对话记忆
         ChatMemory chatMemory = MessageWindowChatMemory.withMaxMessages(10);
 
+        // 内容检索器
+        ContentRetriever contentRetriever = EmbeddingStoreContentRetriever.builder()
+                .embeddingStore(embeddingStore)
+                .embeddingModel(qwenEmbeddingModel) // 源码中有指定默认的模型
+                .maxResults(5) // 最相似的5个结果
+                .minScore(0.6) // 只找相似度在0.6以上的内容
+                .build();
 
         Assistant assistant = AiServices.builder(Assistant.class)
+                .contentRetriever(contentRetriever)
                 .chatModel(qwenChatModel)
                 .streamingChatModel(qwenStreamingChatModel)
                 .chatMemory(chatMemory)
+
                 .build();
 
         return  assistant;
