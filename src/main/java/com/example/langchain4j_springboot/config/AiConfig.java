@@ -1,6 +1,7 @@
 package com.example.langchain4j_springboot.config;
 
 
+import com.example.langchain4j_springboot.functions.LocationNameFunction;
 import dev.langchain4j.community.model.dashscope.QwenEmbeddingModel;
 import dev.langchain4j.memory.ChatMemory;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
@@ -12,8 +13,12 @@ import dev.langchain4j.service.AiServices;
 import dev.langchain4j.service.TokenStream;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore;
+import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Description;
+
+import java.util.function.Function;
 
 /**
  * JDK动态代理与AiServices的理解<p>
@@ -77,5 +82,18 @@ public class AiConfig {
                 .build();
 
         return  assistant;
+    }
+
+    @Bean
+    ChatClient chatClient(ChatClient.Builder chatClientBuilder) {
+//        return chatClientBuilder.defaultSystem("You are a helpful and humorous assistant").build();
+        return chatClientBuilder.defaultSystem("你是一个风趣幽默的问答机器人。").build();
+    }
+
+    // 配置Function对应的bean
+    @Bean
+    @Description("某个地方有几个叫什么名字的人")  // 功能描述
+    Function<LocationNameFunction.Request, LocationNameFunction.Response> locationNameFunction() {
+        return new LocationNameFunction();
     }
 }

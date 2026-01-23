@@ -24,6 +24,14 @@ import java.util.List;
 public class Langchain4jSpringbootApplication {
 
     public static void main(String[] args) {
+        String proxy = "http://127.0.0.1";
+        int port = 7890;
+        System.setProperty("http.proxySet", "true");
+        System.setProperty("http.proxyHost", proxy);
+        System.setProperty("http.proxyPort", String.valueOf(port));
+        System.setProperty("https.proxyType", "4");
+        System.out.println("main函数代理: " + System.getProperty("http.proxyHost"));
+
         SpringApplication.run(Langchain4jSpringbootApplication.class, args);
     }
 
