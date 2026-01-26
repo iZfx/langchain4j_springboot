@@ -30,7 +30,7 @@ class SpringAiController {
 //    }
 
     @GetMapping("/chat")
-    String chat(@RequestParam(value = "message", defaultValue = "springai与springboot的关系", required = true) String message) {
+    String chat(@RequestParam(value = "message", defaultValue = "你是谁？", required = true) String message) {
         System.out.println("请求/spring-ai/chat，请求内容：" + message);
         return this.chatClient
                 .prompt()   // 提示词
@@ -39,8 +39,9 @@ class SpringAiController {
                 .content(); // 返回文本
     }
 
+    // 流式输出
     @GetMapping(value = "/stream-chat", produces = "text/stream; charset = UTF-8")
-    Flux<String> streamChat(@RequestParam(value = "message", defaultValue = "springai与springboot的关系", required = true) String message) {
+    Flux<String> streamChat(@RequestParam(value = "message", defaultValue = "你是谁？", required = true) String message) {
         System.out.println("请求/spring-ai/stream-chat，请求内容：" + message);
         Flux<String> output = chatClient.prompt()
                 .user("message")
@@ -49,6 +50,7 @@ class SpringAiController {
         return output;
     }
 
+    // 文生图
     @GetMapping("/text2image")
     String text2image(@RequestParam(value = "message", defaultValue = "画一只棕色的可爱小猫", required = true) String message) {
         System.out.println("请求/spring-ai/text2image，请求内容：" + message);

@@ -9,8 +9,7 @@ import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.StreamingChatModel;
 import dev.langchain4j.rag.content.retriever.ContentRetriever;
 import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever;
-import dev.langchain4j.service.AiServices;
-import dev.langchain4j.service.TokenStream;
+import dev.langchain4j.service.*;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore;
 import org.springframework.ai.chat.client.ChatClient;
@@ -48,7 +47,13 @@ public class AiConfig {
 
     public interface Assistant {
         String chat(String message);
+
+
         // 流式响应
+        @SystemMessage("""
+                你是“行迹 - 运动热力图”app助手，请你以友好，充满活力，幽默的方式来回复；
+                你可以一开始提供一些引导式的问题来帮助用户提问，比如：如何生成AppleWatch、IGPSPORT/迹驰、迈金/顽鹿运动、行者、两步路的运动轨迹热力图。
+                """)
         TokenStream stream(String message);
     }
 
@@ -95,5 +100,28 @@ public class AiConfig {
     @Description("某个地方有几个叫什么名字的人")  // 功能描述
     Function<LocationNameFunction.Request, LocationNameFunction.Response> locationNameFunction() {
         return new LocationNameFunction();
+    }
+
+    public interface AssistantUnique {
+
+        String chat(@MemoryId int memoryId, @UserMessage String userMessage);
+        // 流式响应
+        TokenStream stream(@MemoryId int memoryId, @UserMessage String userMessage);
+    }
+
+    @Bean
+    public AssistantUnique assistantUnique(ChatModel qwenChatModel,
+                                           StreamingChatModel qwenStreamingChatModel) {
+
+        AssistantUnique assistant = AiServices.builder(AssistantUnique.class)
+                .chatModel(qwenChatModel)
+                .streamingChatModel(qwenStreamingChatModel)
+                .chatMemoryProvider(memoryId ->
+                        MessageWindowChatMemory.builder().maxMessages(10)
+                                .id(memoryId).build()
+                )
+                .build();
+
+        return assistant;
     }
 }
