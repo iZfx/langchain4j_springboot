@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
+
 @RestController
 @RequestMapping("/spring-ai")
 public class FunctionCallController {
@@ -19,7 +21,7 @@ public class FunctionCallController {
 
     @GetMapping("/function-call")
     public String functionCall(@RequestParam(value = "message", defaultValue = "京北市有几个叫小明的人", required = false) String message) {
-        System.out.println("请求/spring-ai/function-call，请求内容：" + message);
+        System.out.println(new Date() + "请求/spring-ai/function-call，请求内容：" + message);
 
         OpenAiChatOptions options = OpenAiChatOptions.builder()
                 .toolNames("locationNameFunction")

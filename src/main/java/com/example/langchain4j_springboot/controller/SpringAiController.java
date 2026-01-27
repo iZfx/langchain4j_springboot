@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 
+import java.util.Date;
+
 @RestController
 @RequestMapping("/spring-ai")
 class SpringAiController {
@@ -31,7 +33,7 @@ class SpringAiController {
 
     @GetMapping("/chat")
     String chat(@RequestParam(value = "message", defaultValue = "你是谁？", required = true) String message) {
-        System.out.println("请求/spring-ai/chat，请求内容：" + message);
+        System.out.println(new Date() + "请求/spring-ai/chat，请求内容：" + message);
         return this.chatClient
                 .prompt()   // 提示词
                 .user(message)  // 用户输入信息
@@ -42,7 +44,7 @@ class SpringAiController {
     // 流式输出
     @GetMapping(value = "/stream-chat", produces = "text/stream; charset = UTF-8")
     Flux<String> streamChat(@RequestParam(value = "message", defaultValue = "你是谁？", required = true) String message) {
-        System.out.println("请求/spring-ai/stream-chat，请求内容：" + message);
+        System.out.println(new Date() + "请求/spring-ai/stream-chat，请求内容：" + message);
         Flux<String> output = chatClient.prompt()
                 .user("message")
                 .stream()
@@ -53,7 +55,7 @@ class SpringAiController {
     // 文生图
     @GetMapping("/text2image")
     String text2image(@RequestParam(value = "message", defaultValue = "画一只棕色的可爱小猫", required = true) String message) {
-        System.out.println("请求/spring-ai/text2image，请求内容：" + message);
+        System.out.println(new Date() + "请求/spring-ai/text2image，请求内容：" + message);
         ImageResponse response = openaiImageModel.call(
                 new ImagePrompt(message,
                         OpenAiImageOptions.builder()
