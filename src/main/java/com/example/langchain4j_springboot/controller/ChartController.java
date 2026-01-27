@@ -59,7 +59,7 @@ public class ChartController {
 
     @RequestMapping(value = "/memory_stream_chat", produces = "text/stream; charset = UTF-8")
     public Flux<String> memoryStreamChat(@RequestParam(defaultValue = "你是谁？") String message) {
-        System.out.println(new Date() + "请求/ai/memory_stream_chat，请求内容：" + message);
+        System.out.println(new Date() + " 请求/ai/memory_stream_chat，请求内容：" + message);
 
         TokenStream stream = assistant.stream( message);
 

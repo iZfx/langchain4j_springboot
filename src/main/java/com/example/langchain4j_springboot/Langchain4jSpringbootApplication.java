@@ -25,7 +25,7 @@ import java.util.List;
 public class Langchain4jSpringbootApplication {
 
     public static void main(String[] args) {
-        System.out.println(new Date() + "开始启动主程序！");
+        System.out.println(new Date() + " 开始启动主程序！");
 
         SpringApplication.run(Langchain4jSpringbootApplication.class, args);
     }
@@ -33,8 +33,9 @@ public class Langchain4jSpringbootApplication {
     @Bean
     CommandLineRunner ingestTermOfServiceToVectorStore(QwenEmbeddingModel qwenEmbeddingModel,
                                                        EmbeddingStore embeddingStore) throws URISyntaxException {
-        // 读取
+        System.out.println(new Date() + " rag开始向量化！");
 
+        // 读取
         return args -> {
             Document document = ClassPathDocumentLoader.loadDocument("rag/terms-of-service.txt", new TextDocumentParser());
 
@@ -49,6 +50,7 @@ public class Langchain4jSpringbootApplication {
 
             // 存入
             embeddingStore.addAll(embeddings,segments);
+            System.out.println(new Date() + " rag向量化完成！");
 
         };
     }
