@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // 显示聊天面板
     aiFloat.addEventListener('click', function() {
         aiPanel.classList.add('show');
+        // 隐藏悬浮按钮
+        aiFloat.style.display = 'none';
         // 滚动到底部
         scrollToBottom();
     });
@@ -17,6 +19,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // 关闭聊天面板
     closeBtn.addEventListener('click', function() {
         aiPanel.classList.remove('show');
+        // 显示悬浮按钮
+        aiFloat.style.display = 'flex';
     });
     
     // 发送消息
