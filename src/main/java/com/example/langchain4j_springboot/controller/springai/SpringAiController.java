@@ -1,9 +1,6 @@
-package com.example.langchain4j_springboot.controller;
+package com.example.langchain4j_springboot.controller.springai;
 
-import org.springaicommunity.qianfan.QianFanImageModel;
-import org.springaicommunity.qianfan.api.QianFanApi;
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.image.ImagePrompt;
 import org.springframework.ai.image.ImageResponse;
 import org.springframework.ai.openai.OpenAiImageModel;

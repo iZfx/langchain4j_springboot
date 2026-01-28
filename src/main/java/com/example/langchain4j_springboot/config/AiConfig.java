@@ -2,6 +2,8 @@ package com.example.langchain4j_springboot.config;
 
 
 import com.example.langchain4j_springboot.functions.LocationNameFunction;
+import com.example.langchain4j_springboot.functions.TwoNumSumFunction;
+import dev.langchain4j.agent.tool.Tool;
 import dev.langchain4j.community.model.dashscope.QwenEmbeddingModel;
 import dev.langchain4j.memory.ChatMemory;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
@@ -106,6 +108,13 @@ public class AiConfig {
     @Description("某个地方有几个叫什么名字的人")  // 功能描述
     Function<LocationNameFunction.Request, LocationNameFunction.Response> locationNameFunction() {
         return new LocationNameFunction();
+    }
+
+    @Bean
+    @Tool("两个数求和")  // langchain4j功能描述
+    @Description("两个数求和")  // spring-ai功能描述
+    Function<TwoNumSumFunction.Request, TwoNumSumFunction.Response> twoNumSumFunction() {
+        return new TwoNumSumFunction();
     }
 
     public interface AssistantUnique {

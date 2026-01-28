@@ -1,4 +1,5 @@
-package com.example.langchain4j_springboot.controller;
+package com.example.langchain4j_springboot.controller.springai;
+
 
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
