@@ -1,6 +1,10 @@
 package com.example.langchain4j_springboot.controller.springai;
 
-
+import com.example.langchain4j_springboot.functions.LocationNameFunction;
+import com.example.langchain4j_springboot.functions.TwoNumSumFunction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
@@ -17,12 +21,14 @@ import java.util.Date;
 @RequestMapping("/spring-ai")
 public class FunctionCallController {
 
+    private static final Logger logger = LoggerFactory.getLogger(FunctionCallController.class);
+
     @Autowired
     private ChatModel chatModel;
 
     @GetMapping("/function-call")
     public String functionCall(@RequestParam(value = "message", defaultValue = "京北市有几个叫小明的人", required = false) String message) {
-        System.out.println(new Date() + " 请求/spring-ai/function-call，请求内容：" + message);
+        logger.info("请求/spring-ai/function-call，请求内容：{}", message);
 
         OpenAiChatOptions options = OpenAiChatOptions.builder()
                 .toolNames("locationNameFunction")

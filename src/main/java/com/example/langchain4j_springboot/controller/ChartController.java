@@ -6,6 +6,8 @@ import dev.langchain4j.community.model.dashscope.QwenStreamingChatModel;
 import dev.langchain4j.model.chat.response.ChatResponse;
 import dev.langchain4j.model.chat.response.StreamingChatResponseHandler;
 import dev.langchain4j.service.TokenStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +20,8 @@ import java.util.Date;
 @RestController
 @RequestMapping("/ai")
 public class ChartController {
+
+    private static final Logger logger = LoggerFactory.getLogger(ChartController.class);
 
     @Autowired
     private QwenChatModel qwenChatModel;
@@ -59,7 +63,7 @@ public class ChartController {
 
     @RequestMapping(value = "/memory_stream_chat", produces = "text/stream; charset = UTF-8")
     public Flux<String> memoryStreamChat(@RequestParam(defaultValue = "你是谁？") String message) {
-        System.out.println(new Date() + " 请求/ai/memory_stream_chat，请求内容：" + message);
+        logger.info("请求/ai/memory_stream_chat，请求内容：{}", message);
 
         TokenStream stream = assistant.stream( message);
 
