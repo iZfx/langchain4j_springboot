@@ -70,6 +70,13 @@
             <version>1.0.0</version>
         </dependency>
 
+        <!-- 使用jakarta servlet API -->
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>6.0.0</version>
+        </dependency>
+
     </dependencies>
 
     <dependencyManagement>
