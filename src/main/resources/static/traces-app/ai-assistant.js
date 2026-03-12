@@ -66,7 +66,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         
                         const chunk = decoder.decode(value, {stream: true});
                         botResponse += chunk;
-                        botMessageElement.querySelector('p').textContent = botResponse;
+                        // 格式化显示回复
+                        botMessageElement.querySelector('p').innerHTML = formatMessage(botResponse);
                         
                         scrollToBottom();
                         
@@ -93,7 +94,12 @@ document.addEventListener('DOMContentLoaded', function() {
         messageDiv.classList.add('message', `${sender}-message`);
         
         const msgContent = document.createElement('p');
-        msgContent.textContent = text;
+        if (isLoading) {
+            msgContent.textContent = text;
+        } else {
+            // 格式化显示消息
+            msgContent.innerHTML = formatMessage(text);
+        }
         messageDiv.appendChild(msgContent);
         
         chatMessages.appendChild(messageDiv);
@@ -116,4 +122,59 @@ document.addEventListener('DOMContentLoaded', function() {
             sendMessage();
         }
     });
+    
+    // 格式化消息：使用 Markdown 解析
+    function formatMessage(text) {
+        if (!text) return '';
+        
+        // 预处理文本，确保 Markdown 格式正确
+        let processedText = text
+            // 确保粗体前后有适当的空格
+            .replace(/([\u4e00-\u9fa5])\*\*/g, '$1 **')
+            .replace(/\*\*([\u4e00-\u9fa5])/g, '** $1')
+            // 处理列表项（中文破折号转 Markdown 列表）
+            .replace(/^\s*[·•●◆■](.*)$/gm, '-$1');
+        
+        // 使用 marked.js 进行 Markdown 解析
+        // 如果 marked 未加载，则降级处理
+        if (typeof marked !== 'undefined') {
+            try {
+                // 配置 marked 选项
+                const html = marked.parse(processedText, {
+                    breaks: true, // 将换行符转换为<br>
+                    gfm: true, // 启用 GitHub 风格 Markdown
+                    headerIds: false, // 不生成标题 ID
+                    mangle: false, // 不转义 HTML
+                    pedantic: false // 严格遵循 Markdown 规范
+                });
+                return html;
+            } catch (e) {
+                console.error('Markdown 解析失败:', e);
+                // 降级到简单格式化
+                return simpleFormat(text);
+            }
+        } else {
+            // 降级到简单格式化
+            return simpleFormat(text);
+        }
+    }
+    
+    // 简单格式化（降级方案）
+    function simpleFormat(text) {
+        let formatted = text
+            // 转义 HTML 特殊字符，防止 XSS 攻击
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            // 处理链接 [文本](URL)
+            .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+            // 处理粗体 **文本**
+            .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+            // 处理斜体 *文本*
+            .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+            // 处理换行符
+            .replace(/\n/g, '<br>');
+        
+        return formatted;
+    }
 });

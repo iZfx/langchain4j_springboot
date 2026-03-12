@@ -610,6 +610,118 @@ body {
     margin-right: auto;
 }
 
+/* 机器人消息中的格式化样式 - Markdown 渲染 */
+.bot-message p {
+    line-height: 1.6;
+    white-space: pre-wrap; /* 保留换行符 */
+    margin: 0.5em 0;
+}
+
+/* 粗体样式 - 重点优化 */
+.bot-message strong {
+    font-weight: bold !important;
+    color: #667eea !important;
+    display: inline-block;
+}
+
+.bot-message em {
+    font-style: italic;
+    color: #764ba2;
+}
+
+.bot-message a {
+    color: #667eea;
+    text-decoration: none;
+    border-bottom: 1px solid #667eea;
+    transition: all 0.2s ease;
+}
+
+.bot-message a:hover {
+    color: #764ba2;
+    border-bottom-color: #764ba2;
+}
+
+/* Markdown 列表样式 */
+.bot-message ul,
+.bot-message ol {
+    margin: 0.5em 0;
+    padding-left: 1.5em;
+}
+
+.bot-message li {
+    margin: 0.3em 0;
+}
+
+/* Markdown 代码块样式 */
+.bot-message code {
+    background: #f4f4f4;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+    color: #e83e8c;
+}
+
+.bot-message pre {
+    background: #2d2d2d;
+    color: #f8f8f2;
+    padding: 12px;
+    border-radius: 5px;
+    overflow-x: auto;
+    margin: 0.5em 0;
+}
+
+.bot-message pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+}
+
+/* Markdown 引用样式 */
+.bot-message blockquote {
+    border-left: 4px solid #667eea;
+    margin: 0.5em 0;
+    padding-left: 1em;
+    color: #666;
+    font-style: italic;
+}
+
+/* Markdown 标题样式 */
+.bot-message h1,
+.bot-message h2,
+.bot-message h3,
+.bot-message h4,
+.bot-message h5,
+.bot-message h6 {
+    margin: 0.8em 0 0.5em;
+    font-weight: bold;
+    color: #333;
+}
+
+.bot-message h1 { font-size: 1.5em; }
+.bot-message h2 { font-size: 1.3em; }
+.bot-message h3 { font-size: 1.1em; }
+
+/* Markdown 表格样式 */
+.bot-message table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 0.5em 0;
+}
+
+.bot-message th,
+.bot-message td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.bot-message th {
+    background: #667eea;
+    color: white;
+    font-weight: bold;
+}
+
 .chat-input-area {
     padding: 15px;
     display: flex;
