@@ -80,7 +80,7 @@ public class AiConfig {
         // 手动创建 LangChain4j 的 Ollama ChatModel
         return OllamaChatModel.builder()
                 .baseUrl("http://localhost:11434")
-                .modelName("deepseek-r1:1.5b")
+                .modelName("qwen2:0.5b")
                 .build();
     }
 
@@ -90,7 +90,7 @@ public class AiConfig {
         // 手动创建 LangChain4j 的 Ollama StreamingChatModel
         return OllamaStreamingChatModel.builder()
                 .baseUrl("http://localhost:11434")
-                .modelName("deepseek-r1:1.5b")
+                .modelName("qwen2:0.5b")
                 .build();
     }
 

@@ -76,8 +76,8 @@ if [ $? -ne 0 ]; then
 fi
 
 # 下载 Chat 模型 (选择最小的适合 2GB 内存的模型)
-echo "正在下载 Chat 模型：deepseek-r1:1.5b..."
-ollama pull deepseek-r1:1.5b
+echo "正在下载 Chat 模型：qwen2:0.5b..."
+ollama pull qwen2:0.5b
 
 if [ $? -ne 0 ]; then
     echo "错误：Chat 模型下载失败"
@@ -95,7 +95,7 @@ echo "你好" | ollama run qwen3-embedding:0.6b
 
 # 测试 Chat 模型
 echo "测试 Chat 模型..."
-echo "你好，请简单介绍一下你自己" | ollama run deepseek-r1:1.5b
+echo "你好，请简单介绍一下你自己" | ollama run qwen2:0.5b
 
 echo ""
 echo "======================================"
@@ -104,7 +104,7 @@ echo "======================================"
 echo ""
 echo "模型信息:"
 echo "  - Embedding: qwen3-embedding:0.6b (~639MB)"
-echo "  - Chat: deepseek-r1:1.5b (~1.1GB)"
+echo "  - Chat: qwen2:0.5b (~400MB)"
 echo ""
 echo "Ollama 服务地址：http://localhost:11434"
 echo ""
