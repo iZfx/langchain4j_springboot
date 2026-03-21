@@ -100,7 +100,7 @@ public class AiConfig {
         // 手动创建 LangChain4j 的 Ollama EmbeddingModel
         return OllamaEmbeddingModel.builder()
                 .baseUrl("http://localhost:11434")
-                .modelName("qwen3-embedding:0.6b")
+                .modelName("nomic-embed-text")
                 .build();
     }
 

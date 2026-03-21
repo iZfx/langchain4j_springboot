@@ -67,8 +67,8 @@ sudo systemctl status ollama --no-pager
 echo "[4/5] 下载 AI 模型..."
 
 # 下载 Embedding 模型
-echo "正在下载 Embedding 模型：qwen3-embedding:0.6b..."
-ollama pull qwen3-embedding:0.6b
+echo "正在下载 Embedding 模型：nomic-embed-text..."
+ollama pull nomic-embed-text
 
 if [ $? -ne 0 ]; then
     echo "错误：Embedding 模型下载失败"
@@ -91,7 +91,7 @@ ollama list
 
 # 测试 Embedding 模型
 echo "测试 Embedding 模型..."
-echo "你好" | ollama run qwen3-embedding:0.6b
+echo "你好" | ollama run nomic-embed-text
 
 # 测试 Chat 模型
 echo "测试 Chat 模型..."
@@ -103,7 +103,7 @@ echo "安装完成!"
 echo "======================================"
 echo ""
 echo "模型信息:"
-echo "  - Embedding: qwen3-embedding:0.6b (~639MB)"
+echo "  - Embedding: nomic-embed-text (~500MB)"
 echo "  - Chat: qwen2:0.5b (~400MB)"
 echo ""
 echo "Ollama 服务地址：http://localhost:11434"
