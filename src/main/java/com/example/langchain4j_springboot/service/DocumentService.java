@@ -7,9 +7,12 @@ import dev.langchain4j.data.document.parser.TextDocumentParser;
 import dev.langchain4j.data.document.splitter.DocumentByLineSplitter;
 import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.segment.TextSegment;
+import dev.langchain4j.model.ollama.OllamaEmbeddingModel;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -34,11 +37,12 @@ public class DocumentService {
     @Value("${github.document.url:https://raw.githubusercontent.com/iZfx/KnowledgeBase/main/SportHeatMap.txt}")
     private String githubDocumentUrl;
 
-    private final QwenEmbeddingModel qwenEmbeddingModel;
+    private final OllamaEmbeddingModel ollamaEmbeddingModel;
     private final EmbeddingStore embeddingStore;
 
-    public DocumentService(QwenEmbeddingModel qwenEmbeddingModel, EmbeddingStore embeddingStore) {
-        this.qwenEmbeddingModel = qwenEmbeddingModel;
+    @Autowired
+    public DocumentService(OllamaEmbeddingModel ollamaEmbeddingModel, EmbeddingStore embeddingStore) {
+        this.ollamaEmbeddingModel = ollamaEmbeddingModel;
         this.embeddingStore = embeddingStore;
     }
 
@@ -89,7 +93,7 @@ public class DocumentService {
             logger.info("[{}] 文档分割完成，共 {} 个片段", source, segments.size());
 
             // 向量化处理
-            List<Embedding> embeddings = qwenEmbeddingModel.embedAll(segments).content();
+            List<Embedding> embeddings = ollamaEmbeddingModel.embedAll(segments).content();
 
             // 存储到嵌入存储中
             embeddingStore.addAll(embeddings, segments);

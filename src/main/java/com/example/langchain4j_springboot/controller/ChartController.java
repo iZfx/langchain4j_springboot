@@ -23,43 +23,43 @@ public class ChartController {
 
     private static final Logger logger = LoggerFactory.getLogger(ChartController.class);
 
-    @Autowired
-    private QwenChatModel qwenChatModel;
+//    @Autowired
+//    private QwenChatModel qwenChatModel;
 
-    @Autowired
-    QwenStreamingChatModel qwenStreamingChatModel;
+//    @Autowired
+//    QwenStreamingChatModel qwenStreamingChatModel;
 
     @Autowired
     private AiConfig.Assistant assistant;
 
-    @RequestMapping("/chat")
-    public String chat(@RequestParam(defaultValue = "你是谁？") String message) {
-        String chat = qwenChatModel.chat(message);
-        return chat;
-    }
+//    @RequestMapping("/chat")
+//    public String chat(@RequestParam(defaultValue = "你是谁？") String message) {
+//        String chat = qwenChatModel.chat(message);
+//        return chat;
+//    }
 
-    @RequestMapping(value = "/stream_chat", produces = "text/stream; charset = UTF-8")
-    public Flux<String> streamChat(@RequestParam(defaultValue = "你是谁？") String message) {
-        Flux<String> fluxsink = Flux.create(sink -> {
-            qwenStreamingChatModel.chat(message, new StreamingChatResponseHandler() {
-                @Override
-                public void onPartialResponse(String partialResponse) {
-                    sink.next(partialResponse);
-                }
-
-                @Override
-                public void onCompleteResponse(ChatResponse completeResponse) {
-                    sink.complete();
-                }
-
-                @Override
-                public void onError(Throwable error) {
-                    sink.error(error);
-                }
-            });
-        });
-        return fluxsink;
-    }
+//    @RequestMapping(value = "/stream_chat", produces = "text/stream; charset = UTF-8")
+//    public Flux<String> streamChat(@RequestParam(defaultValue = "你是谁？") String message) {
+//        Flux<String> fluxsink = Flux.create(sink -> {
+//            qwenStreamingChatModel.chat(message, new StreamingChatResponseHandler() {
+//                @Override
+//                public void onPartialResponse(String partialResponse) {
+//                    sink.next(partialResponse);
+//                }
+//
+//                @Override
+//                public void onCompleteResponse(ChatResponse completeResponse) {
+//                    sink.complete();
+//                }
+//
+//                @Override
+//                public void onError(Throwable error) {
+//                    sink.error(error);
+//                }
+//            });
+//        });
+//        return fluxsink;
+//    }
 
     @RequestMapping(value = "/memory_stream_chat", produces = "text/stream; charset = UTF-8")
     public Flux<String> memoryStreamChat(@RequestParam(defaultValue = "你是谁？") String message) {
