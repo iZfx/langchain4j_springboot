@@ -364,13 +364,19 @@ body {
 
 .appstore-btn {
     display: inline-block;
-    background-color: white;
+    background-color: transparent;
     color: #0071e3;
     width: 200px;
     height: 60px;
     border-radius: 12px;
     text-decoration: none;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.appstore-btn img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
 }
 
 .appstore-btn:hover {
@@ -403,32 +409,80 @@ body {
     font-weight: bold;
 }
 
-/* 页脚 */
+/* 页脚 - Apple官网风格 */
 .footer {
-    padding: 3rem 0;
-    background-color: #f5f7fa;
-    text-align: center;
+    padding: 1.5rem 0;
+    background-color: #f5f5f7;
+    border-top: 1px solid #d2d2d7;
 }
 
-.footer p {
-    margin-bottom: 1rem;
-    color: #666;
+.footer-content {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 22px;
 }
 
 .footer-links {
     display: flex;
     justify-content: center;
-    gap: 2rem;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 0.8rem;
+    line-height: 1.33337;
 }
 
 .footer-links a {
-    color: #666;
+    color: #424245;
     text-decoration: none;
+    font-size: 0.75rem;
     transition: color 0.3s ease;
+    white-space: nowrap;
 }
 
 .footer-links a:hover {
     color: #0071e3;
+    text-decoration: underline;
+}
+
+.footer-links .separator {
+    color: #d2d2d7;
+    margin: 0 0.6rem;
+    font-size: 0.75rem;
+    user-select: none;
+}
+
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.footer-bottom p {
+    margin: 0;
+    color: #6e6e73;
+    font-size: 0.75rem;
+    line-height: 1.33337;
+}
+
+/* 备案信息样式 - Apple风格 */
+.beian-info {
+    margin: 0;
+}
+
+.beian-info a {
+    color: #424245;
+    text-decoration: none;
+    font-size: 0.75rem;
+    line-height: 1.33337;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+}
+
+.beian-info a:hover {
+    color: #0071e3;
+    text-decoration: underline;
 }
 
 /* 响应式设计 */
@@ -495,6 +549,13 @@ body {
 
     .download {
         padding: 4rem 0;
+    }
+
+    /* 页脚响应式 */
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
     }
 }
 
