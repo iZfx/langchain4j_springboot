@@ -5,6 +5,7 @@ import dev.langchain4j.data.document.Document;
 import dev.langchain4j.data.document.loader.ClassPathDocumentLoader;
 import dev.langchain4j.data.document.parser.TextDocumentParser;
 import dev.langchain4j.data.document.splitter.DocumentByLineSplitter;
+import dev.langchain4j.data.document.splitter.DocumentByParagraphSplitter;
 import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.model.ollama.OllamaEmbeddingModel;
@@ -34,8 +35,17 @@ public class DocumentService {
 
     private static final Logger logger = LoggerFactory.getLogger(DocumentService.class);
 
-    @Value("${github.document.url:https://raw.githubusercontent.com/iZfx/KnowledgeBase/main/SportHeatMap.txt}")
+    @Value("${github.document.url:https://raw.githubusercontent.com/iZfx/KnowledgeBase/main/SportHeatMap.md}")
     private String githubDocumentUrl;
+
+    @Value("${local.document.url:rag/SportHeatMapKnowledge.md}")
+    private String localDocumentUrl;
+
+    @Value("${document.splitter.max-segment-size:200}")
+    private int maxSegmentSize;
+
+    @Value("${document.splitter.min-segment-size:20}")
+    private int minSegmentSize;
 
     private final OllamaEmbeddingModel ollamaEmbeddingModel;
     private final EmbeddingStore embeddingStore;
@@ -74,9 +84,8 @@ public class DocumentService {
                 document = Document.from(documentContent);
             } catch (Exception e) {
                 logger.error("[{}] 从GitHub获取文档内容时发生错误: {}", source, e.getMessage(), e);
-                String pathOnClasspath = "rag/SportHeatMapKnowledge.txt";
-                logger.info("[{}] 开始从内部获取文档内容: {}", source, pathOnClasspath);
-                document = ClassPathDocumentLoader.loadDocument(pathOnClasspath, new TextDocumentParser());
+                logger.info("[{}] 开始从内部获取文档内容: {}", source, localDocumentUrl);
+                document = ClassPathDocumentLoader.loadDocument(localDocumentUrl, new TextDocumentParser());
             }
 
 
@@ -87,7 +96,7 @@ public class DocumentService {
             embeddingStore.removeAll(); // 如果需要完全替换可以取消注释
 
             // 分割文档
-            DocumentByLineSplitter splitter = new DocumentByLineSplitter(100, 10);
+            DocumentByParagraphSplitter splitter = new DocumentByParagraphSplitter(maxSegmentSize, minSegmentSize);
             List<TextSegment> segments = splitter.split(document);
 
             logger.info("[{}] 文档分割完成，共 {} 个片段", source, segments.size());
