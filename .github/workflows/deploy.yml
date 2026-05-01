@@ -31,4 +31,4 @@ jobs:
           port: ${{ secrets.DEPLOY_PORT }}
           script: |
             cd /home/deploy/app/langchain4j_springboot
-            ./deploy.sh
+            ../deploy.sh
