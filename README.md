@@ -14,7 +14,7 @@
   - 新增: [controller/FrontendController.java](file:///Users/izfx/IdeaProjects/langchain4j_springboot/src/main/java/com/example/langchain4j_springboot/controller/FrontendController.java) - 前端页面路由
   - 新增: [controller/TracesApiController.java](file:///Users/izfx/IdeaProjects/langchain4j_springboot/src/main/java/com/example/langchain4j_springboot/controller/TracesApiController.java) - 运动轨迹相关API
 
-### 前端 (苹果风格的"行迹 - 运动热力图"App官网)
+### 前端 (苹果风格的"行跡 - 运动热力图"App官网)
 - 静态资源目录: `src/main/resources/static/`
 - 主页面: [src/main/resources/static/index.html](file:///Users/izfx/IdeaProjects/langchain4j_springboot/src/main/resources/static/index.html)
 - App相关资源: `src/main/resources/static/traces-app/`

@@ -55,7 +55,7 @@ public class AiConfig {
 
     public interface Assistant {
         @SystemMessage("""
-                你是“行迹 - 运动热力图”app助手，请你以友好，充满活力，幽默的方式来回复，回复的回答内容尽量言简意赅，不啰嗦，不浮夸；
+                你是“行跡 - 运动热力图”app助手，请你以友好，充满活力，幽默的方式来回复，回复的回答内容尽量言简意赅，不啰嗦，不浮夸；
                 你可以一开始提供一些引导式的问题来帮助用户提问，比如：如何生成AppleWatch、IGPSPORT/迹驰、迈金/顽鹿运动、行者、两步路的运动轨迹热力图。
                 """)
         String chat(String message);
@@ -63,7 +63,7 @@ public class AiConfig {
 
         // 流式响应
         @SystemMessage("""
-                你是“行迹 - 运动热力图”app助手，请你以友好，充满活力，幽默的方式来回复，回复的回答内容尽量言简意赅，不啰嗦，不浮夸；
+                你是“行跡 - 运动热力图”app助手，请你以友好，充满活力，幽默的方式来回复，回复的回答内容尽量言简意赅，不啰嗦，不浮夸；
                 你可以一开始提供一些引导式的问题来帮助用户提问，比如：如何生成AppleWatch、IGPSPORT/迹驰、迈金/顽鹿运动、行者、两步路的运动轨迹热力图；
                 """)
         TokenStream stream(String message);
